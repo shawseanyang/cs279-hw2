@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Defines the light and dark themes with specific semantic elements
 class Themes {
   static final lightTheme = ThemeData(
     brightness: Brightness.light,

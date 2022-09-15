@@ -6,10 +6,12 @@ import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
+// Abstracts away notification logic
 class NotificationProvider {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  // initializes the notification plugin
   initializeNotification() async {
     // tz.initializeTimeZones();
     await _configureLocalTimezone();
@@ -39,6 +41,7 @@ class NotificationProvider {
         .show(0, title, body, platformChannelSpecifics, payload: 'item x');
   } */
 
+  // add a scheduled notification
   scheduledNotification(
       {required Task task, required int hour, required int minutes}) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -68,6 +71,7 @@ class NotificationProvider {
     );
   }
 
+  // converts time into a DateTime
   tz.TZDateTime _convertTime(int hour, int minute) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
 
@@ -79,12 +83,14 @@ class NotificationProvider {
     return scheduledDate;
   }
 
+  // sets the timezone based on the device's location
   Future<void> _configureLocalTimezone() async {
     tz.initializeTimeZones();
     final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(timeZone));
   }
 
+  // When the user taps a notification, they are taken to the notification screen
   Future selectNotification(String? payload) async {
     final String title = payload!.split('|')[0];
     final String note = payload.split('|')[1];

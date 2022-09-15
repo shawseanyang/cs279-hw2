@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// This screen shows all tasks, compared to the home screen which shows tasks only for the selected day
 class AllTasksScreen extends StatelessWidget {
   AllTasksScreen({Key? key}) : super(key: key);
 
@@ -17,6 +18,7 @@ class AllTasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // show message if no tasks, otherwise render the tasks 
     return Scaffold(
       appBar: _appBar(),
       body: Obx(
@@ -44,6 +46,7 @@ class AllTasksScreen extends StatelessWidget {
     );
   }
 
+  // header bar
   _appBar() {
     return AppBar(
       toolbarHeight: 60.h,
@@ -66,6 +69,7 @@ class AllTasksScreen extends StatelessWidget {
     );
   }
 
+  // creates a list of task tiles
   _showTasks() {
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
@@ -82,6 +86,7 @@ class AllTasksScreen extends StatelessWidget {
     );
   }
 
+  // Same bottom bar as on the Home Screen that shows the user more information about the task
   _showBottomSheet(BuildContext context, Task task) {
     final double height = MediaQuery.of(context).size.height;
     Get.bottomSheet(

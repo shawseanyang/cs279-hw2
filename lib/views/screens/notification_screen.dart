@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Shows notifications
 class NotificationScreen extends StatelessWidget {
   final String title;
   final String note;
@@ -32,6 +33,7 @@ class NotificationScreen extends StatelessWidget {
           ),
         ),
       ),
+      // shows the reminder and the task its reminder the user about along with all the relevant details from the task
       body: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width * .78.w,

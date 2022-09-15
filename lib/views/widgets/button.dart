@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Defines a standard button for the app
 class Button extends StatelessWidget {
   final String label;
   final Function() onTap;

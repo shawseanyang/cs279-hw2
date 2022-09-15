@@ -1,4 +1,6 @@
+// Defines a Task object
 class Task {
+  // fields
   int? id;
   String? title;
   String? note;
@@ -10,6 +12,7 @@ class Task {
   int? remind;
   String? repeat;
 
+  // constructor
   Task({
     this.id,
     this.color,
@@ -23,6 +26,7 @@ class Task {
     this.title,
   });
 
+  // parse from a JSON string
   Task fromJson(Map<String, dynamic> json) => Task(
         id: json['id'],
         title: json['title'],
@@ -36,6 +40,7 @@ class Task {
         date: json['date'],
       );
 
+  // convert to a Map
   Map<String, dynamic> toMap() => {
         'id': id,
         'title': title,

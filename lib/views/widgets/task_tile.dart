@@ -4,6 +4,7 @@ import 'package:flutter_todo_app/models/task.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Defines a standard look for tasks called a Task Tile
 class TaskTile extends StatelessWidget {
   final Task task;
   TaskTile({Key? key, required this.task}) : super(key: key);

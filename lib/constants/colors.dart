@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// Defines a standard set of colors for the application that's used throughout the app, but most notably by theme.dart
+
 // const Color primaryColor = Color(0xff4e5ae8);
 const Color primaryColor = Color(0xFFcb00ff);
 const Color yellowClr = Color.fromARGB(255, 230, 117, 18);

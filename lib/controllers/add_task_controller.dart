@@ -3,6 +3,7 @@ import 'package:flutter_todo_app/providers/database_provider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+// Abstracts away logic for adding tasks
 class AddTaskController extends GetxController {
   final Rx<DateTime> _selectedDate = DateTime.now().obs;
 

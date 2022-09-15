@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// The add tasks screen allows the user to create a new todo with all the input fields to do so
 class AddTaskScreen extends StatelessWidget {
   AddTaskScreen({Key? key}) : super(key: key);
 
@@ -22,6 +23,7 @@ class AddTaskScreen extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
+  // types of repetition
   final List<String> repeatList = [
     'None',
     'Daily',
@@ -29,6 +31,7 @@ class AddTaskScreen extends StatelessWidget {
     'Monthly',
   ];
 
+  // intervals of reminders
   final List<int> reminderList = [
     5,
     10,
@@ -36,6 +39,7 @@ class AddTaskScreen extends StatelessWidget {
     20,
   ];
 
+  // Render the inputs
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -48,20 +52,24 @@ class AddTaskScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Title
               Text(
                 'Task Details',
                 style: Themes().headingTextStyle,
               ),
+              // title
               InputField(
                 hint: 'Enter title here',
                 title: 'Title',
                 controller: _titleController,
               ),
+              // note
               InputField(
                 hint: 'Enter your note',
                 title: 'Note',
                 controller: _noteController,
               ),
+              // date picker
               InputField(
                 hint: DateFormat.yMd().format(_addTaskController.selectedDate),
                 title: 'Date',
@@ -73,6 +81,7 @@ class AddTaskScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              // start and end times
               Row(
                 children: [
                   Expanded(
@@ -106,6 +115,7 @@ class AddTaskScreen extends StatelessWidget {
                   )
                 ],
               ),
+              // let the user choose how many minutes before an event to remind them with a notification
               InputField(
                 hint: '${_addTaskController.selectedReminder} minutes early',
                 title: 'Reminder',
@@ -149,6 +159,7 @@ class AddTaskScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              // allow the user to select reptitiveness
               InputField(
                 hint: _addTaskController.selectedRepeat,
                 title: 'Repeat',
@@ -208,7 +219,9 @@ class AddTaskScreen extends StatelessWidget {
     );
   }
 
+  // Make sure that the task has all the required fields
   _validateTask() async {
+    // if theres a title and a note, then create a task with the given info and add the task to the database
     if (_titleController.text.isNotEmpty || _noteController.text.isNotEmpty) {
       Task task = Task(
         note: _noteController.text,
@@ -226,6 +239,7 @@ class AddTaskScreen extends StatelessWidget {
       await _addTaskController.addTaskToDB(task);
       Get.back();
     } else {
+      // otherwise prompt the user to add more info
       Get.snackbar(
         'Required',
         'All fields are required',
@@ -236,6 +250,7 @@ class AddTaskScreen extends StatelessWidget {
     }
   }
 
+  // Allow the user to select a color for the task
   Widget _colorPallete() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -286,6 +301,7 @@ class AddTaskScreen extends StatelessWidget {
         ],
       );
 
+  // the header bar has a back arrow along with a title for the page (Add Title)
   _appBar() {
     return AppBar(
       toolbarHeight: 60.h,
@@ -308,6 +324,7 @@ class AddTaskScreen extends StatelessWidget {
     );
   }
 
+  // When one of the date fields are tapped, this function displays a date picker to actually pick the date
   _getDateFromUser(BuildContext context) async {
     DateTime? pickerDate = await showDatePicker(
         context: context,
@@ -320,6 +337,7 @@ class AddTaskScreen extends StatelessWidget {
     }
   }
 
+  // When one of the time fields are tapped, this function displays a time picker to actually pick the time
   _getTimeFromUser(BuildContext context, bool isStartTime) async {
     String? formatedTime;
     await showTimePicker(

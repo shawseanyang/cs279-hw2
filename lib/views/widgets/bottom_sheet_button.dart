@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_todo_app/constants/theme.dart';
 
+// Defines the type of button that should go on the Bottom Sheet (they span the entire horizontal width of the screen)
 class BottomSheetButton extends StatelessWidget {
   final String label;
   final Function() onTap;

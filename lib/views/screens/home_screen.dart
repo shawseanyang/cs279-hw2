@@ -16,9 +16,11 @@ import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 
+// The home screen is the landing page for users. It extends StatefulWidget because it must have state to initialize the notifications component asynchronously.
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
+  // A stateful widget must create a state
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late final NotificationProvider notificationProvider;
 
+  // Create the notification component (abstracts away handling notifications for tasks)
   @override
   void initState() {
     super.initState();
@@ -37,30 +40,42 @@ class _HomeScreenState extends State<HomeScreen> {
     notificationProvider.initializeNotification();
   }
 
+  // This defines the UI
   @override
   Widget build(BuildContext context) {
     return Obx(
       () {
+        // the Scaffold provides the characteristic Material UI header and drawers
         return Scaffold(
+          // the header
           appBar: _appBar(),
           body: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Column(
+              // CSS-equivalent: align-items: start (that's the cross axis specification)
               crossAxisAlignment: CrossAxisAlignment.start,
+              // what to put inside this Column
               children: [
+                // the Add Task component
                 _addTask(),
                 SizedBox(
                   height: 12.h,
                 ),
+                // the Date Bar
                 _addDateBar(),
+                // if no tasks, then display a message saying so
                 _homeController.myTasks.isEmpty
                     ? Expanded(
+                      // A centered column
                         child: Center(
                           child: SizedBox(
                             child: Column(
+                              // CSS-equivalent: justify-content: center
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                // with an image
                                 Image.asset('assets/appicon.png'),
+                                // and some text
                                 Text('You do not have any tasks yet!',
                                     style: GoogleFonts.lato(
                                       fontSize: 14.sp,
@@ -75,7 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       )
+                    // otherwise display the tasks
                     : _showTasks(context),
+                // Finally, a button to show all tasks by diverting to the all tasks screen
                 Container(
                   alignment: Alignment.center,
                   child: GestureDetector(
@@ -93,7 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // renders the tasks
   _showTasks(BuildContext context) {
+    // returns a list. Expanded tells this component to take up as much space as possible along the main axis (like CSS flex-grow)
     return Expanded(
         child: ListView.builder(
       padding: EdgeInsets.only(
@@ -102,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
       itemCount: _homeController.myTasks.length,
       itemBuilder: (_, i) {
         final data = _homeController.myTasks[i];
+        // for daily tasks, display them along with a component to open more info about that task (_showBottomSheet)
         if (data.repeat == 'Daily') {
           DateTime date = DateFormat.jm().parse(data.startTime!);
           var myTime = DateFormat("HH:mm").format(date);
@@ -121,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TaskTile(task: data),
           );
         }
+        // for all other tasks, if they're for the selected date, then display them with their date and also with a component to open more info about that task (_showBottomSheet)
         if (data.date ==
             DateFormat.yMd().format(_homeController.selectedDate)) {
           return GestureDetector(
@@ -130,12 +151,14 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TaskTile(task: data),
           );
         } else {
+          // otherwise don't show anything for a task that isn't for the selected date
           return Container();
         }
       },
     ));
   }
 
+  // renders the bottom sheet that contains more info about a selected task
   _showBottomSheet(BuildContext context, Task task) {
     final double height = MediaQuery.of(context).size.height;
     Get.bottomSheet(
@@ -158,6 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Spacer(),
+            // If a task is not complete yet, show a button to mark it as complete along
             task.isCompleted == 1
                 ? Container()
                 : BottomSheetButton(
@@ -177,6 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     color: primaryColor,
                   ),
+            // A button for deleting the task
             BottomSheetButton(
               label: 'Delete Task',
               onTap: () {
@@ -196,6 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 20.h,
             ),
+            // Button to close the Bottom Sheet
             BottomSheetButton(
               label: 'Close',
               onTap: () {
@@ -213,11 +239,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Renders the header bar, called the "App Bar" in Flutter
   _appBar() {
     return AppBar(
       toolbarHeight: 60.h,
       backgroundColor: Colors.transparent,
       elevation: 0,
+      // A circular icon representing the app
       leading: Row(
         children: [
           SizedBox(
@@ -230,6 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       centerTitle: true,
+      // a title on the header
       title: Text(
         'My Tasks',
         style: GoogleFonts.lato(
@@ -239,6 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       actions: [
+        // and a dark/light mode toggle
         IconButton(
           onPressed: () async {
             _themeController.switchTheme();
@@ -257,6 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Date picker component
   Widget _addDateBar() => SizedBox(
         child: DatePicker(
           DateTime.now(),
@@ -290,6 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
 
+  // Button to add a task
   Widget _addTask() => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -308,6 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+          // when the add task button is hit, it transitions the app to the Add Tasks screen
           Button(
             label: '+ Add Task',
             onTap: () async {

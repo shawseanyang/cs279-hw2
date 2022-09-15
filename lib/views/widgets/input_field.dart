@@ -3,6 +3,7 @@ import 'package:flutter_todo_app/constants/theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Defines a standard input for the app
 class InputField extends StatelessWidget {
   final String title;
   final String hint;
